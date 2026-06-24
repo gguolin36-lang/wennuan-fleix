@@ -1838,7 +1838,7 @@ footer::before{
       <a href="mailto:wennuan@wennuanfactory.com">wennuan@wennuanfactory.com</a>
       <a href="https://wa.me/8615267949964"
          onclick="event.preventDefault(); openWhatsApp(); return false;"
-         rel="noopener">WhatsApp +86 152 6794 9964 (Peri)</a>
+         rel="noopener">WhatsApp +86 152 6794 9964 (Fleix)</a>
     </div>
     <div class="footer-col">
       <h5>Services</h5>
@@ -1872,7 +1872,7 @@ footer::before{
 <a href="https://wa.me/8615267949964"
    onclick="event.preventDefault(); openWhatsApp(); return false;"
    class="whatsapp-float"
-   title="Chat on WhatsApp: +86 152 6794 9964 (Peri)"
+   title="Chat on WhatsApp: +86 152 6794 9964 (Fleix)"
    aria-label="WhatsApp">💬</a>
 
 <!-- Toast -->
@@ -13275,7 +13275,7 @@ async function exportExcel(){
     c.alignment = { vertical:'middle', horizontal:'center' };
   });
   ws.addRow([]);
-  const infoRow = ws.addRow(['Yiwu Wennuan Clothing  ·  wennuan@wennuanfactory.com  ·  WhatsApp +86 152 6794 9964 (Peri)']);
+  const infoRow = ws.addRow(['Yiwu Wennuan Clothing  ·  wennuan@wennuanfactory.com  ·  WhatsApp +86 152 6794 9964 (Fleix)']);
   ws.mergeCells(`A${infoRow.number}:H${infoRow.number}`);
   infoRow.getCell(1).font = { italic:true, size:10, color:{argb:'FF6B4F3F'} };
   infoRow.getCell(1).alignment = { horizontal:'center' };
@@ -13410,7 +13410,7 @@ async function exportExcel(){
 
     // Footer contact line
     wsP.addRow([]).height = 8;
-    const footRow = wsP.addRow(['Yiwu Wennuan Clothing  ·  wennuan@wennuanfactory.com  ·  WhatsApp +86 152 6794 9964 (Peri)']);
+    const footRow = wsP.addRow(['Yiwu Wennuan Clothing  ·  wennuan@wennuanfactory.com  ·  WhatsApp +86 152 6794 9964 (Fleix)']);
     wsP.mergeCells(`A${footRow.number}:${colLetter(1+COLS_PER_ROW)}${footRow.number}`);
     footRow.getCell(1).font = { italic:true, size:10, color:{argb:'FF6B4F3F'} };
     footRow.getCell(1).alignment = { horizontal:'center' };

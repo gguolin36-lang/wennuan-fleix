@@ -423,10 +423,10 @@ async function tryDecrypt(orderId, accessKey){
   const entry = bundle.entries.find(e => e.idx === idx);
   if(!entry) return null;  // order not found
 
-  // 3. decrypt with PBKDF2-derived key
-  const salt = b64ToBuf(entry.salt);
-  const iv = b64ToBuf(entry.iv);
-  const ct = b64ToBuf(entry.ct);
+  // 3. decrypt with PBKDF2-derived key (use clientCt: cs/ci/cc)
+  const salt = b64ToBuf(entry.cs || entry.salt);
+  const iv = b64ToBuf(entry.ci || entry.iv);
+  const ct = b64ToBuf(entry.cc || entry.ct);
   let key;
   try {
     key = await deriveKey(accessKey, salt);

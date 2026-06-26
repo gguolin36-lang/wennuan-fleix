@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#C9A84C">
+<title>Track Your Order — Wennuan Hijab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C; --gold-dark:#A8862E;
+  --cream:#F8F3E8; --cream-dark:#EDE4CE;
+  --brown:#3D2B1F; --brown-light:#6B4F3F;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bot: env(safe-area-inset-bottom, 0px);
+}
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body{ margin:0; padding:0; }
+body{
+  background:var(--cream); color:var(--brown);
+  font-family:'Inter',sans-serif; font-size:14px; line-height:1.5;
+  min-height:100vh; padding-bottom:calc(40px + var(--safe-bot));
+}
+a{ color:var(--gold-dark); text-decoration:none; }
+a:hover{ color:var(--brown); }
+
+/* ─── Top bar ─── */
+.topbar{
+  background:linear-gradient(135deg,var(--brown) 0%,#2A1E15 100%);
+  color:var(--cream); padding:calc(14px + var(--safe-top)) 24px 14px;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:12px;
+}
+.topbar .brand{
+  font-family:'Playfair Display',serif; font-size:22px; font-weight:700;
+  color:var(--cream); display:flex; align-items:center; gap:10px;
+}
+.topbar .brand .mark{
+  width:34px; height:34px; border-radius:50%;
+  background:radial-gradient(circle at 30% 25%,#F2DA92 0%,var(--gold) 38%,var(--gold-dark) 100%);
+  display:inline-flex; align-items:center; justify-content:center;
+  color:#1A1209; font-family:'Playfair Display',serif; font-weight:700; font-size:16px;
+}
+.topbar .nav a{
+  color:var(--gold); font-weight:500; margin-left:22px; font-size:14px;
+  transition:color .2s;
+}
+.topbar .nav a:hover{ color:#FFFEFB; }
+
+/* ─── Main container ─── */
+.wrap{
+  max-width:760px; margin:0 auto; padding:48px 22px 24px;
+}
+.page-eyebrow{
+  display:flex; align-items:center; gap:10px; justify-content:center;
+  font-size:11px; letter-spacing:3px; text-transform:uppercase;
+  color:var(--gold-dark); font-weight:600; margin-bottom:14px;
+}
+.page-eyebrow .line{ width:34px; height:1px; background:var(--gold-dark); opacity:0.55; }
+h1.page-title{
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:38px; color:var(--brown); text-align:center;
+  margin:0 0 8px; letter-spacing:-0.5px;
+}
+h1.page-title .it{ font-style:italic; color:var(--gold-dark); font-weight:500; }
+.page-sub{
+  text-align:center; color:var(--brown-light); font-size:15px;
+  margin-bottom:36px;
+}
+
+/* ─── Form card ─── */
+.card{
+  background:#fffefb; border-radius:14px;
+  border:1px solid var(--cream-dark);
+  padding:32px 28px; box-shadow:0 8px 24px -12px rgba(61,43,31,0.12);
+}
+.field{ margin-bottom:18px; }
+.field label{
+  display:block; font-size:11px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--brown-light); font-weight:600; margin-bottom:8px;
+}
+.field input{
+  width:100%; padding:14px 16px; font-family:'Inter',sans-serif;
+  font-size:15px; color:var(--brown); background:var(--cream);
+  border:1.5px solid var(--cream-dark); border-radius:10px;
+  transition:border-color .2s, background .2s;
+  font-feature-settings:"tnum" 1;
+}
+.field input:focus{
+  outline:none; border-color:var(--gold);
+  background:#fffefb; box-shadow:0 0 0 3px rgba(201,168,76,0.15);
+}
+.field input::placeholder{ color:#b8a995; font-style:italic; }
+
+.btn-check{
+  width:100%; padding:15px; font-size:15px; font-weight:600;
+  font-family:'Inter',sans-serif; letter-spacing:0.5px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color:#fff; border:0; border-radius:10px; cursor:pointer;
+  transition:transform .15s, box-shadow .2s;
+  margin-top:8px;
+}
+.btn-check:hover{ transform:translateY(-1px); box-shadow:0 10px 22px -8px rgba(168,134,46,0.55); }
+.btn-check:active{ transform:translateY(0); }
+.btn-check:disabled{ opacity:0.6; cursor:wait; transform:none; }
+
+.err{
+  margin-top:14px; padding:11px 14px; border-radius:8px;
+  background:#FDECEA; color:#A52A1F; font-size:13px;
+  border-left:3px solid #A52A1F; display:none;
+}
+.err.show{ display:block; }
+
+/* ─── Order details panel ─── */
+.order-panel{ display:none; }
+.order-panel.show{ display:block; }
+.order-head{
+  text-align:center; margin-bottom:26px;
+}
+.order-head .ok{
+  display:inline-block; padding:5px 14px; border-radius:14px;
+  background:rgba(201,168,76,0.18); color:var(--gold-dark);
+  font-size:11px; font-weight:600; letter-spacing:2px;
+  text-transform:uppercase; margin-bottom:14px;
+}
+.order-head .oid{
+  font-family:'Playfair Display',serif; font-size:30px;
+  font-weight:700; color:var(--brown); margin-bottom:4px;
+}
+.order-head .cust{ font-size:14px; color:var(--brown-light); }
+
+.spec-grid{
+  display:grid; grid-template-columns:repeat(2,1fr); gap:12px;
+  margin-bottom:28px;
+}
+@media(max-width:520px){ .spec-grid{ grid-template-columns:1fr; } }
+.spec-card{
+  background:var(--cream); padding:14px 16px; border-radius:10px;
+  border-left:3px solid var(--gold);
+}
+.spec-card .lab{
+  font-size:10.5px; color:var(--brown-light);
+  letter-spacing:1.5px; text-transform:uppercase; margin-bottom:4px;
+}
+.spec-card .val{
+  font-size:15px; color:var(--brown); font-weight:600;
+}
+
+/* ─── Stage tracker ─── */
+.stages{
+  display:flex; justify-content:space-between; align-items:flex-start;
+  margin:30px 0 8px; position:relative;
+}
+.stages::before{
+  content:""; position:absolute; left:7%; right:7%; top:18px; height:2px;
+  background:var(--cream-dark); z-index:0;
+}
+.stages .stage-bar-done{
+  position:absolute; left:7%; top:18px; height:2px;
+  background:var(--gold-dark); z-index:1;
+  transition:width .6s ease;
+}
+.stage{
+  flex:1; text-align:center; position:relative; z-index:2;
+}
+.stage .dot{
+  width:38px; height:38px; border-radius:50%;
+  background:#fffefb; border:2px solid var(--cream-dark);
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:600; color:var(--brown-light);
+  margin-bottom:10px; transition:all .3s;
+}
+.stage.done .dot{ background:var(--gold-dark); border-color:var(--gold-dark); color:#fff; }
+.stage.current .dot{
+  background:var(--gold); border-color:var(--gold); color:#fff;
+  box-shadow:0 0 0 5px rgba(201,168,76,0.2); transform:scale(1.08);
+}
+.stage .lab{
+  font-size:11px; color:var(--brown-light); letter-spacing:0.5px;
+  font-weight:500;
+}
+.stage.done .lab, .stage.current .lab{ color:var(--brown); font-weight:600; }
+
+/* progress bar inside current stage */
+.progress-wrap{
+  background:var(--cream); padding:14px 16px; border-radius:10px;
+  margin:24px 0 26px; border-left:3px solid var(--gold);
+}
+.progress-wrap .row{
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:13px; color:var(--brown-light); margin-bottom:8px;
+}
+.progress-wrap .row strong{ color:var(--brown); font-weight:600; }
+.progress-bar{
+  height:8px; background:var(--cream-dark); border-radius:6px; overflow:hidden;
+}
+.progress-fill{
+  height:100%; background:linear-gradient(90deg,var(--gold),var(--gold-dark));
+  border-radius:6px; transition:width .8s ease;
+}
+
+/* ─── Updates timeline ─── */
+.timeline-title{
+  font-family:'Playfair Display',serif; font-size:20px;
+  color:var(--brown); margin:32px 0 14px;
+  display:flex; align-items:center; gap:10px;
+}
+.timeline-title::before{
+  content:""; display:inline-block; width:24px; height:2px; background:var(--gold);
+}
+.timeline{
+  border-left:2px solid var(--cream-dark);
+  padding-left:20px; margin-left:6px;
+}
+.tl-item{
+  position:relative; padding-bottom:18px;
+}
+.tl-item:last-child{ padding-bottom:0; }
+.tl-item::before{
+  content:""; position:absolute; left:-27px; top:4px;
+  width:10px; height:10px; border-radius:50%;
+  background:var(--gold); border:2px solid #fffefb;
+  box-shadow:0 0 0 1px var(--cream-dark);
+}
+.tl-item:first-child::before{ background:var(--gold-dark); }
+.tl-meta{
+  font-size:11px; color:var(--brown-light); letter-spacing:0.5px;
+  margin-bottom:4px;
+}
+.tl-meta .by{
+  display:inline-block; margin-left:8px; padding:1px 8px;
+  background:var(--cream); border-radius:8px; color:var(--gold-dark);
+  font-weight:600; font-size:10px; text-transform:uppercase; letter-spacing:1px;
+}
+.tl-text{ font-size:14px; color:var(--brown); line-height:1.55; }
+
+.ship-card{
+  margin-top:24px; padding:16px 18px; border-radius:10px;
+  background:linear-gradient(135deg,var(--brown) 0%,#2A1E15 100%);
+  color:var(--cream); display:flex; justify-content:space-between; align-items:center;
+  gap:14px; flex-wrap:wrap;
+}
+.ship-card .label{
+  font-size:11px; color:var(--gold); letter-spacing:2px;
+  text-transform:uppercase; font-weight:600;
+}
+.ship-card .date{
+  font-family:'Playfair Display',serif; font-size:22px;
+  font-weight:700; color:#fffefb;
+}
+
+.back-link{
+  display:inline-flex; align-items:center; gap:6px;
+  margin-top:30px; font-size:13px; color:var(--brown-light);
+  cursor:pointer;
+}
+.back-link:hover{ color:var(--brown); }
+
+/* ─── Help footer ─── */
+.help{
+  margin-top:34px; padding:20px 24px; background:#fffefb;
+  border:1px dashed var(--cream-dark); border-radius:12px;
+  font-size:13px; color:var(--brown-light); text-align:center;
+}
+.help strong{ color:var(--brown); }
+
+@media(max-width:560px){
+  h1.page-title{ font-size:30px; }
+  .card{ padding:24px 18px; }
+  .stages .dot{ width:30px; height:30px; font-size:11px; }
+  .stage .lab{ font-size:10px; }
+  .order-head .oid{ font-size:22px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="./" class="brand">
+    <span class="mark">W</span>
+    <span>Wennuan Hijab</span>
+  </a>
+  <div class="nav">
+    <a href="./">Catalog</a>
+    <a href="./track" style="color:#FFFEFB;border-bottom:1px solid var(--gold)">Track Order</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- Login form -->
+  <div id="loginCard">
+    <div class="page-eyebrow"><span class="line"></span>Order Tracking<span class="line"></span></div>
+    <h1 class="page-title">Track Your <span class="it">Order</span></h1>
+    <p class="page-sub">Enter your order number and access key to view your production status.</p>
+
+    <div class="card">
+      <form id="trackForm" autocomplete="off">
+        <div class="field">
+          <label for="oid">Order Number</label>
+          <input type="text" id="oid" name="oid" placeholder="e.g. WN-2026-0142" autocapitalize="characters" spellcheck="false">
+        </div>
+        <div class="field">
+          <label for="key">Access Key</label>
+          <input type="text" id="key" name="key" placeholder="e.g. XXXX-XXXX-XXXX" autocapitalize="characters" spellcheck="false">
+        </div>
+        <button type="submit" class="btn-check" id="btnCheck">Check Status</button>
+        <div class="err" id="err"></div>
+      </form>
+    </div>
+
+    <div class="help">
+      Need help? Contact your sales representative on WhatsApp to receive your <strong>order number</strong> and <strong>access key</strong>.
+    </div>
+  </div>
+
+  <!-- Order details panel -->
+  <div class="order-panel" id="orderPanel">
+    <div class="order-head">
+      <div class="ok">Order Found</div>
+      <div class="oid" id="d_oid">—</div>
+      <div class="cust" id="d_cust">—</div>
+    </div>
+
+    <div class="spec-grid">
+      <div class="spec-card"><div class="lab">Product</div><div class="val" id="d_prod">—</div></div>
+      <div class="spec-card"><div class="lab">Quantity</div><div class="val" id="d_qty">—</div></div>
+      <div class="spec-card"><div class="lab">Color</div><div class="val" id="d_col">—</div></div>
+      <div class="spec-card"><div class="lab">Current Stage</div><div class="val" id="d_stage">—</div></div>
+    </div>
+
+    <div class="stages" id="stages">
+      <div class="stage-bar-done" id="barDone" style="width:0"></div>
+      <div class="stage" data-stage="confirmed"><div class="dot">1</div><div class="lab">Confirmed</div></div>
+      <div class="stage" data-stage="cutting"><div class="dot">2</div><div class="lab">Cutting</div></div>
+      <div class="stage" data-stage="sewing"><div class="dot">3</div><div class="lab">Sewing</div></div>
+      <div class="stage" data-stage="qc"><div class="dot">4</div><div class="lab">QC</div></div>
+      <div class="stage" data-stage="shipping"><div class="dot">5</div><div class="lab">Shipping</div></div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="row"><span>Stage progress</span><strong id="d_pct">0%</strong></div>
+      <div class="progress-bar"><div class="progress-fill" id="d_fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="ship-card">
+      <div>
+        <div class="label">Estimated Ship Date</div>
+      </div>
+      <div class="date" id="d_ship">—</div>
+    </div>
+
+    <div class="timeline-title">Updates</div>
+    <div class="timeline" id="d_timeline"></div>
+
+    <a class="back-link" id="backLink">← Check another order</a>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// AES-GCM decryption (must match build-orders.js exactly)
+//   - PBKDF2-SHA256, 100000 iter, 32-byte key
+//   - AES-256-GCM, 12-byte IV, 16-byte tag (appended to ciphertext)
+//   - Index hash: SHA-256(orderId + "wennuan-track-v1") → first 16 bytes hex
+// ═══════════════════════════════════════════════════════════════
+const HASH_SALT = "wennuan-track-v1";
+const PBKDF2_ITER = 100000;
+const ENC_FILE = "orders.enc.json";
+
+const STAGE_ORDER = ["confirmed","cutting","sewing","qc","shipping"];
+const STAGE_LABEL = {
+  confirmed: "Confirmed",
+  cutting:   "Cutting",
+  sewing:    "Sewing",
+  qc:        "Quality Check",
+  shipping:  "Shipping",
+  done:      "Completed"
+};
+
+function b64ToBuf(b64){
+  const bin = atob(b64);
+  const buf = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) buf[i] = bin.charCodeAt(i);
+  return buf;
+}
+
+async function hashIndex(orderId){
+  const enc = new TextEncoder();
+  const data = enc.encode(orderId + HASH_SALT);
+  const hash = await crypto.subtle.digest("SHA-256", data);
+  const bytes = new Uint8Array(hash);
+  let hex = "";
+  for(let i=0;i<16;i++) hex += bytes[i].toString(16).padStart(2,"0");
+  return hex;
+}
+
+async function deriveKey(accessKey, saltBuf){
+  const enc = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey(
+    "raw", enc.encode(accessKey), { name:"PBKDF2" }, false, ["deriveKey"]
+  );
+  return crypto.subtle.deriveKey(
+    { name:"PBKDF2", salt:saltBuf, iterations:PBKDF2_ITER, hash:"SHA-256" },
+    baseKey,
+    { name:"AES-GCM", length:256 },
+    false, ["decrypt"]
+  );
+}
+
+async function tryDecrypt(orderId, accessKey){
+  // 1. fetch encrypted bundle (with cache-buster)
+  const r = await fetch(ENC_FILE + "?v=" + Date.now(), { cache:"no-store" });
+  if(!r.ok) throw new Error("Unable to load order data (HTTP " + r.status + ")");
+  const bundle = await r.json();
+  if(!bundle.entries || !Array.isArray(bundle.entries))
+    throw new Error("Order data malformed");
+
+  // 2. find entry by hashed orderId
+  const idx = await hashIndex(orderId);
+  const entry = bundle.entries.find(e => e.idx === idx);
+  if(!entry) return null;  // order not found
+
+  // 3. decrypt with PBKDF2-derived key
+  const salt = b64ToBuf(entry.salt);
+  const iv = b64ToBuf(entry.iv);
+  const ct = b64ToBuf(entry.ct);
+  let key;
+  try {
+    key = await deriveKey(accessKey, salt);
+  } catch(e){ return null; }
+
+  try {
+    const ptBuf = await crypto.subtle.decrypt({ name:"AES-GCM", iv }, key, ct);
+    const pt = new TextDecoder().decode(ptBuf);
+    return JSON.parse(pt);
+  } catch(e){
+    return null;  // wrong key → GCM auth tag fails
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UI rendering
+// ═══════════════════════════════════════════════════════════════
+function showError(msg){
+  const e = document.getElementById("err");
+  e.textContent = msg;
+  e.classList.add("show");
+}
+function clearError(){
+  document.getElementById("err").classList.remove("show");
+}
+
+function renderOrder(o){
+  document.getElementById("loginCard").style.display = "none";
+  document.getElementById("orderPanel").classList.add("show");
+
+  document.getElementById("d_oid").textContent = o.orderId;
+  document.getElementById("d_cust").textContent = o.customer || "";
+  document.getElementById("d_prod").textContent = o.product || "—";
+  document.getElementById("d_qty").textContent = o.quantity || "—";
+  document.getElementById("d_col").textContent = o.color || "—";
+  document.getElementById("d_stage").textContent = STAGE_LABEL[o.stage] || o.stage || "—";
+  document.getElementById("d_ship").textContent = o.estShipDate || "TBD";
+
+  // stage tracker
+  const stageIdx = STAGE_ORDER.indexOf(o.stage);
+  document.querySelectorAll(".stage").forEach((el, i) => {
+    el.classList.remove("done","current");
+    if(stageIdx === -1) return;
+    if(i < stageIdx) el.classList.add("done");
+    else if(i === stageIdx) el.classList.add("current");
+  });
+  // animate the connector line
+  if(stageIdx >= 0){
+    const n = STAGE_ORDER.length;
+    const widthPct = stageIdx === 0 ? 0 : (stageIdx / (n-1)) * 86; // 86% = 100% - 2×7% padding
+    setTimeout(() => { document.getElementById("barDone").style.width = widthPct + "%"; }, 100);
+  }
+
+  // progress bar
+  const pct = Math.max(0, Math.min(100, +o.progress || 0));
+  document.getElementById("d_pct").textContent = pct + "%";
+  setTimeout(() => { document.getElementById("d_fill").style.width = pct + "%"; }, 200);
+
+  // timeline (latest first as stored)
+  const tl = document.getElementById("d_timeline");
+  tl.innerHTML = "";
+  (o.updates || []).forEach(u => {
+    const item = document.createElement("div");
+    item.className = "tl-item";
+    item.innerHTML =
+      '<div class="tl-meta">' + (u.date || "") +
+      (u.by ? '<span class="by">' + u.by + '</span>' : '') +
+      '</div>' +
+      '<div class="tl-text"></div>';
+    item.querySelector(".tl-text").textContent = u.text || "";
+    tl.appendChild(item);
+  });
+
+  // scroll to top of panel
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+function resetToLogin(){
+  document.getElementById("orderPanel").classList.remove("show");
+  document.getElementById("loginCard").style.display = "";
+  document.getElementById("oid").value = "";
+  document.getElementById("key").value = "";
+  clearError();
+  // also clear URL params
+  const url = new URL(window.location);
+  url.searchParams.delete("o");
+  url.searchParams.delete("k");
+  history.replaceState({}, "", url.pathname + (url.search ? url.search : ""));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Wire up form & auto-fill from URL ?o=...&k=...
+// ═══════════════════════════════════════════════════════════════
+async function handleCheck(orderId, accessKey){
+  clearError();
+  const btn = document.getElementById("btnCheck");
+  btn.disabled = true;
+  btn.textContent = "Checking...";
+
+  try {
+    const o = await tryDecrypt(orderId.trim(), accessKey.trim());
+    if(!o){
+      showError("Order number or access key is incorrect. Please double-check and try again.");
+      return;
+    }
+    renderOrder(o);
+  } catch(e){
+    showError("Unable to load order data. Please refresh and try again.");
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Check Status";
+  }
+}
+
+document.getElementById("trackForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const oid = document.getElementById("oid").value;
+  const key = document.getElementById("key").value;
+  if(!oid || !key){ showError("Please enter both order number and access key."); return; }
+  handleCheck(oid, key);
+});
+
+document.getElementById("backLink").addEventListener("click", resetToLogin);
+
+// Auto-fill + auto-check from URL params
+window.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const o = params.get("o");
+  const k = params.get("k");
+  if(o) document.getElementById("oid").value = o;
+  if(k) document.getElementById("key").value = k;
+  if(o && k){
+    // small delay so users see the form briefly before auto-loading
+    setTimeout(() => handleCheck(o, k), 250);
+  }
+});
+</script>
+
+</body>
+</html>

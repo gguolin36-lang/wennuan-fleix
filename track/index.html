@@ -284,7 +284,7 @@ h1.page-title .it{ font-style:italic; color:var(--gold-dark); font-weight:500; }
   </a>
   <div class="nav">
     <a href="./">Catalog</a>
-    <a href="./track" style="color:#FFFEFB;border-bottom:1px solid var(--gold)">Track Order</a>
+    <a href="./" style="color:#FFFEFB;border-bottom:1px solid var(--gold)">Track Order</a>
   </div>
 </div>
 
@@ -367,8 +367,8 @@ h1.page-title .it{ font-style:italic; color:var(--gold-dark); font-weight:500; }
 // ═══════════════════════════════════════════════════════════════
 const HASH_SALT = "wennuan-track-v1";
 const PBKDF2_ITER = 100000;
-// 部署到 /track/ 子路径下, orders.enc.json 在父级目录
-const ENC_FILE = "../orders.enc.json";
+// 用绝对路径, 不受 /track vs /track/ 重定向或 base URL 影响
+const ENC_FILE = "/wennuan-fleix/orders.enc.json";
 
 const STAGE_ORDER = ["confirmed","cutting","sewing","qc","shipping"];
 const STAGE_LABEL = {

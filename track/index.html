@@ -299,7 +299,7 @@ h1.page-title .it{ font-style:italic; color:var(--gold-dark); font-weight:500; }
       <form id="trackForm" autocomplete="off">
         <div class="field">
           <label for="oid">Order Number</label>
-          <input type="text" id="oid" name="oid" placeholder="e.g. WN-2026-0142" autocapitalize="characters" spellcheck="false">
+          <input type="text" id="oid" name="oid" placeholder="e.g. 0142" inputmode="numeric" pattern="[0-9]+" autocomplete="off" spellcheck="false">
         </div>
         <div class="field">
           <label for="key">Access Key</label>
@@ -552,16 +552,22 @@ document.getElementById("trackForm").addEventListener("submit", e => {
 
 document.getElementById("backLink").addEventListener("click", resetToLogin);
 
+// Strip non-digit chars from order number input
+document.getElementById("oid").addEventListener("input", e => {
+  const v = e.target.value.replace(/\D/g, "");
+  if(v !== e.target.value) e.target.value = v;
+});
+
 // Auto-fill + auto-check from URL params
 window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const o = params.get("o");
   const k = params.get("k");
-  if(o) document.getElementById("oid").value = o;
+  if(o) document.getElementById("oid").value = o.replace(/\D/g, "");
   if(k) document.getElementById("key").value = k;
   if(o && k){
     // small delay so users see the form briefly before auto-loading
-    setTimeout(() => handleCheck(o, k), 250);
+    setTimeout(() => handleCheck(document.getElementById("oid").value, k), 250);
   }
 });
 </script>

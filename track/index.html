@@ -367,7 +367,8 @@ h1.page-title .it{ font-style:italic; color:var(--gold-dark); font-weight:500; }
 // ═══════════════════════════════════════════════════════════════
 const HASH_SALT = "wennuan-track-v1";
 const PBKDF2_ITER = 100000;
-const ENC_FILE = "orders.enc.json";
+// 部署到 /track/ 子路径下, orders.enc.json 在父级目录
+const ENC_FILE = "../orders.enc.json";
 
 const STAGE_ORDER = ["confirmed","cutting","sewing","qc","shipping"];
 const STAGE_LABEL = {
